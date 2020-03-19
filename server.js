@@ -26,23 +26,26 @@ app.get('/query', (req, res) => {
     var name = req.query.name
     var date = req.query.date
     console.log(date);
+    console.log(name);
 
-    //database connection
-    pool.connect((err, client, release) => {
-        if (err) {
-            return console.error('Error acquiring client', err.stack)
-        }
-        client.query(`select name, tz, geo, grid, date from test where name='${name}' and date='${date}'`, (err, response) => {
-            release()
+    -
+        //database connection
+        pool.connect((err, client, release) => {
             if (err) {
-                return console.error('Error executing query', err.stack)
+                return console.error('Error acquiring client', err.stack)
             }
-            res.send({
-                data: response.rows
+            client.query(`select (name, tz, geo, date, x, y) from test where name='${name}' and date='${date}'`, (err, response) => {
+                release()
+                if (err) {
+                    return console.error('Error executing query', err.stack)
+                }
+                console.log(response.rows);
+                res.send({
+                    data: response.rows
+                })
             })
-        })
 
-    })
+        })
 })
 
 //temps dropdown
