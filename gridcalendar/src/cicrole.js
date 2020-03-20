@@ -194,29 +194,30 @@ class Role extends React.Component {
 		}
 	}
 
-	handleNameData(data) {
-		console.log(data);
+
+
+	async handleSelectChange(value) {
+		let date = document.getElementById("date").getAttribute("data-day")
+		let formatDate = moment(date).format("YYYY-MM-DD");
+		console.log(formatDate);
+		const response = await fetch(`/query?name=${value}&date=${formatDate}`);
+		const body = await response.json();
+		if (response.status !== 200) {
+			throw Error(body.message)
+		}
+		this.handleNameData(body.data[0]);
 
 	}
 
-	// async handleSelectChange(value) {
-	// 	let date = document.getElementById("date").getAttribute("data-day")
-	// 	let formatDate = moment(date).format("YYYY-MM-DD");
-	// 	console.log(formatDate);
-	// 	const response = await fetch(`/query?name=${value}&date=${formatDate}`);
-	// 	const body = await response.json();
-	// 	if (response.status !== 200) {
-	// 		throw Error(body.message)
-	// 	}
-	// 	handleNameData(body.data[0]);
-
-	// }
+	handleNameData(data) {
+		console.log(data);
+	}
 
 
 	render() {
 		return (
 			<IconSettings iconPath="/assets/icons">
-				<Names changed={this.handleSelectChange}></Names>
+				<Names changed={this.handleSelectChange.bind(this)}></Names>
 				<div style={{ overflow: 'auto' }}>
 					<DataTable columnBordered>
 						{bigColumns}
