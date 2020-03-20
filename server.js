@@ -34,7 +34,7 @@ app.get('/query', (req, res) => {
             if (err) {
                 return console.error('Error acquiring client', err.stack)
             }
-            client.query(`select (name, tz, geo, date, x, y) from test where name='${name}' and date='${date}'`, (err, response) => {
+            client.query(`select name, tz, geo, date, x, y from test where name='${name}' and date='${date}'`, (err, response) => {
                 release()
                 if (err) {
                     return console.error('Error executing query', err.stack)
