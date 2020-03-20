@@ -1,0 +1,43 @@
+ .picker {
+     height: 25rem;
+ }
+
+ /* .grand-semaine {
+    left: 40rem;
+} 
+
+.date {
+    height: 15rem;
+}
+
+.popup {
+    position: absolute;
+    top: 0;
+    left: 0.0625rem
+} */
+
+ .week h1 {
+     text-align: center;
+     font-size: large;
+ }
+
+ .day h1 {
+     text-align: center;
+     font-size: large;
+ }
+
+
+
+ /* .nextbutton {
+     right: 40rem;
+
+ } */
+
+ /* .border {
+     border: 4px solid black;
+     height: 1331px;
+     position: absolute;
+     /* left: 20.35rem; 
+     top: 0;
+
+ } */
