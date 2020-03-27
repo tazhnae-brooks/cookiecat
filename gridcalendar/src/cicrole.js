@@ -69,6 +69,7 @@ class Names extends Component {
 								{ label: 'tazhnae', value: 'tazhnae' },
 								{ label: 'jane', value: 'jane' },
 								{ label: 'general kenobi', value: 'general kenobi' },
+								{ label: 'steve irwin', value: 'steve irwin' },
 								{ type: 'divider' },
 								{ label: 'EMEA', type: 'header' },
 								{ label: 'Menu Item Four', value: 'D0' },
@@ -195,7 +196,6 @@ class Role extends React.Component {
 	}
 
 
-
 	async handleSelectChange(value) {
 		let date = document.getElementById("date").getAttribute("data-day")
 		let formatDate = moment(date).format("YYYY-MM-DD");
@@ -207,10 +207,44 @@ class Role extends React.Component {
 		}
 		this.handleNameData(body.data[0]);
 
+
 	}
+
 
 	handleNameData(data) {
 		console.log(data);
+		data.x.forEach((row, index) => {
+			let rowCopy = this.state.items[parseInt(row) - 1]
+			rowCopy[data.y[index]] = data.name
+			console.log(rowCopy)
+			this.state.items.splice(parseInt(row) - 1, 1)
+			this.state.items = [rowCopy, ...this.state.items]
+
+		})
+		//sort the columns/rows back
+		this.state.items.sort(function (x, y) {
+			if (x.row < y.row) {
+				return -1
+			}
+			if (x.row > y.row) {
+				return 1
+			}
+			return 0
+		})
+		this.setState({
+			items: this.state.items
+		})
+
+
+
+
+		// var z = this.state.items[0]
+		// z["1"] = "tazhnae"
+		// this.state.items.splice(0, 1)
+		// this.setState({
+		// 	items: [z, ...this.state.items]
+
+		// })
 	}
 
 

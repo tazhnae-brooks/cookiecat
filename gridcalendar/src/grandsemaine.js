@@ -11,7 +11,7 @@ class Big extends Component {
 		super(props);
 		this.state = {
 			day: <Moment></Moment>,
-			week: undefined, //adding week: prob #1- copying the month components seems dumb ma'am 
+			week: undefined,
 			weekD1: undefined,
 			day1: undefined,
 		};
@@ -32,7 +32,7 @@ class Big extends Component {
 
 		}));
 	}
-	//month
+	//day
 	previousDay() {
 		this.setState(() => ({
 			day: moment(this.state.day).add(-1, 'days').toDate(),
@@ -59,7 +59,16 @@ class Big extends Component {
 		}));
 	}
 
-	// style={{ "height": "6rem" }}
+
+	//when day() goes to next week, week() should update as well
+	updateDate() {
+		if (this.nextDay == moment(this.state.day).add(7, 'days').toDate()) {
+
+		}
+	}
+
+
+
 	render() {
 		return (
 			<div >
