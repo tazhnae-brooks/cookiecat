@@ -72,10 +72,10 @@ app.get('/query_time', (req, res) => {
 })
 
 app.get('/query_save', (req, res) => {
-    var name = req.query.name
-    // var grid = req.query.grid
-    var tz = req.query.tz
     var date = req.query.date
+    var items = req.query.items
+    console.log(date)
+    console.log(items)
 
 
     //database connection
@@ -83,7 +83,11 @@ app.get('/query_save', (req, res) => {
         if (err) {
             return console.error('Error acquiring client', err.stack)
         }
-        client.query(`insert into test (name, grid, tz, geo, date) Values ('${name}', '${grid}', '${tz}', '${date}')`, (err, response) => {
+        // client.query(`insert into test (name, x, y, tz, geo, date) Values ('tazhnae', '{1, 2}','{3, 4}', 'utc', 'geo', '${date}')`, (err, response) => {
+        client.query(`UPDATE test SET name='tazhnae', x='{1,2}', y='{5, 6}', tz='utc', geo='amer', date='${date}' WHERE name='tazhnae' AND date='${date}';
+        INSERT INTO test (name, x, y, tz, geo, date)
+               SELECT 'tazhnae', '{1, 2}', '{3, 4}', 'utc', 'amer', '${date}'
+               WHERE NOT EXISTS (SELECT 1 FROM test WHERE name='tazhnae' AND date='${date}');`, (err, response) => {
             release()
             if (err) {
                 return console.error('Error executing query', err.stack)
@@ -94,3 +98,8 @@ app.get('/query_save', (req, res) => {
         })
     })
 })
+
+// `UPDATE test SET name='tazhnae', x='{1,2}', y='{3, 4}', tz='utc', geo='amer', date='${date}' WHERE name='tazhnae' AND date='${date}';
+// INSERT INTO test (name, x, y, tz, geo, date)
+//        SELECT 'tazhnae', '{1, 2}', '{3, 4}', 'utc', 'amer', '${date}'
+//        WHERE NOT EXISTS (SELECT 1 FROM test WHERE name='tazhnae' AND date='${date}');`

@@ -12,37 +12,7 @@ class Names extends Component {
 		}
 	}
 
-	// handleNameData(data) {
-	// 	let name = data.name
-	// 	console.log(data);
-	// 	let grid = data.grid
-	// 	grid.forEach(gridLocation => {
-	// 		let matchingElement = document.querySelector(`[data-location='${gridLocation}']`)
-	// 		matchingElement.value = name
-	// 	})
-	// }
 
-	// async handleSelectChange(value) {
-	// 	let date = document.getElementById("date").getAttribute("data-day")
-	// 	let formatDate = moment(date).format("YYYY-MM-DD");
-	// 	console.log(formatDate);
-	// 	const response = await fetch(`/query?name=${value}&date=${formatDate}`);
-	// 	const body = await response.json();
-	// 	if (response.status !== 200) {
-	// 		throw Error(body.message)
-	// 	}
-	// 	this.handleNameData(body.data[0]);
-	// }
-
-	save() {
-		let date = document.getElementById("date").getAttribute("data-day")
-		let formatDate = moment(date).format("YYYY-MM-DD");
-
-		let saveData = {
-			"date": formatDate,
-			"data": []
-		}
-	}
 
 
 	render() {
@@ -83,14 +53,35 @@ class Names extends Component {
 						{this.state.selectedInput}
 					</IconSettings>
 				</div>
-				<div>
+				{/* <div>
 					<button class="slds-button slds-button_neutral" onClick={this.save}>Save</button>
-				</div>
+				</div> */}
 			</div>
 		)
 	}
 }
 
+
+// class Saved extends Component {
+// 	constructor(props) {
+// 		super(props)
+// 	}
+
+// 	click(data) {
+// 		console.log(data)
+// 	}
+
+// 	render() {
+// 		return (
+// 			<div>
+// 				<button class="slds-button slds-button_neutral"
+// 					onClick={(data) => {
+// 						this.props.click(data);
+// 					}} >Save</button>
+// 			</div>
+// 		)
+// 	}
+// }
 
 
 const bigColumns = [
@@ -212,7 +203,6 @@ class Role extends React.Component {
 
 
 	handleNameData(data) {
-		console.log(data);
 		data.x.forEach((row, index) => {
 			let rowCopy = this.state.items[parseInt(row) - 1]
 			rowCopy[data.y[index]] = data.name
@@ -234,24 +224,38 @@ class Role extends React.Component {
 		this.setState({
 			items: this.state.items
 		})
+	}
+
+	handleClick() {
+		let date = document.getElementById("date").getAttribute("data-day")
+		let formatDate = moment(date).format("YYYY-MM-DD");
+		// console.log("h2o")
+		console.log("water")
+	}
 
 
-
-
-		// var z = this.state.items[0]
-		// z["1"] = "tazhnae"
-		// this.state.items.splice(0, 1)
-		// this.setState({
-		// 	items: [z, ...this.state.items]
-
-		// })
+	async save() {
+		console.log(this.state.items)
+		let date = document.getElementById("date").getAttribute("data-day")
+		let formatDate = moment(date).format("YYYY-MM-DD");
+		const response = await fetch(`/query_save?items=${this.state.items}&date=${formatDate}`);
+		const body = await response.json();
+		if (response.status !== 200) {
+			throw Error(body.message)
+		}
 	}
 
 
 	render() {
 		return (
 			<IconSettings iconPath="/assets/icons">
-				<Names changed={this.handleSelectChange.bind(this)}></Names>
+				<Names
+					changed={this.handleSelectChange.bind(this)}
+				></Names>
+				{/* <Saved
+					onClick={this.save.bind(this)}
+				></Saved> */}
+				<button class="slds-button slds-button_neutral" onClick={this.save.bind(this)}>Save</button>
 				<div style={{ overflow: 'auto' }}>
 					<DataTable columnBordered>
 						{bigColumns}

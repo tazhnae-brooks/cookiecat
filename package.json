@@ -12,5 +12,6 @@
     "express": "^4.17.1",
     "pg": "^7.18.1",
     "pool": "^0.4.1"
-  }
+  },
+  "devDependencies": {}
 }
