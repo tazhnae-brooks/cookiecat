@@ -13,8 +13,6 @@ class Names extends Component {
 	}
 
 
-
-
 	render() {
 		return (
 			<div>
@@ -27,10 +25,6 @@ class Names extends Component {
 							iconPosition="right"
 							label="Team"
 							width="small"
-							// submenu_right={true}
-							//onSelect={(selected) => {
-							//	this.handleSelectChange(selected.value);
-							//}}
 							onSelect={(selected) => {
 								this.props.changed(selected.value);
 							}}
@@ -53,35 +47,10 @@ class Names extends Component {
 						{this.state.selectedInput}
 					</IconSettings>
 				</div>
-				{/* <div>
-					<button class="slds-button slds-button_neutral" onClick={this.save}>Save</button>
-				</div> */}
 			</div>
 		)
 	}
 }
-
-
-// class Saved extends Component {
-// 	constructor(props) {
-// 		super(props)
-// 	}
-
-// 	click(data) {
-// 		console.log(data)
-// 	}
-
-// 	render() {
-// 		return (
-// 			<div>
-// 				<button class="slds-button slds-button_neutral"
-// 					onClick={(data) => {
-// 						this.props.click(data);
-// 					}} >Save</button>
-// 			</div>
-// 		)
-// 	}
-// }
 
 
 const bigColumns = [
@@ -142,12 +111,9 @@ const columns = [
 	<DataTableColumn key="11" label="Ecomm - Sec" property="11">
 		<CustomDataTableCell />
 	</DataTableColumn>,
-	// <DataTableColumn key="12" label="Ecomm - " property="12">
-	// 	<CustomDataTableCell />
-	// </DataTableColumn>,
 ];
 
-class Role extends React.Component {
+class RoleTable extends React.Component {
 	static displayName = 'Grid';
 
 	constructor(props) {
@@ -252,9 +218,6 @@ class Role extends React.Component {
 				<Names
 					changed={this.handleSelectChange.bind(this)}
 				></Names>
-				{/* <Saved
-					onClick={this.save.bind(this)}
-				></Saved> */}
 				<button class="slds-button slds-button_neutral" onClick={this.save.bind(this)}>Save</button>
 				<div style={{ overflow: 'auto' }}>
 					<DataTable columnBordered>
@@ -270,4 +233,4 @@ class Role extends React.Component {
 }
 
 
-export default Role;
+export default RoleTable;

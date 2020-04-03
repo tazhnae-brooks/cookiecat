@@ -98,8 +98,3 @@ app.get('/query_save', (req, res) => {
         })
     })
 })
-
-// `UPDATE test SET name='tazhnae', x='{1,2}', y='{3, 4}', tz='utc', geo='amer', date='${date}' WHERE name='tazhnae' AND date='${date}';
-// INSERT INTO test (name, x, y, tz, geo, date)
-//        SELECT 'tazhnae', '{1, 2}', '{3, 4}', 'utc', 'amer', '${date}'
-//        WHERE NOT EXISTS (SELECT 1 FROM test WHERE name='tazhnae' AND date='${date}');`

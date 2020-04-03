@@ -6,7 +6,7 @@ const moment = require("moment")
 
 
 Moment.globalFormat = "MMMM DD" // January 2020
-class Big extends Component {
+class Dates extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -62,7 +62,7 @@ class Big extends Component {
 
 	//when day() goes to next week, week() should update as well
 	updateDate() {
-		if (this.nextDay == moment(this.state.day).add(7, 'days').toDate()) {
+		if (this.nextDay === moment(this.state.day).add(7, 'days').toDate()) {
 
 		}
 	}
@@ -99,4 +99,4 @@ class Big extends Component {
 	}
 }
 
-export default Big;
+export default Dates;
