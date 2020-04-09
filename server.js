@@ -1,7 +1,12 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
+const bodyParser = require('body-parser')
 
+app.use(bodyParser.json()); // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
+    extended: true
+}));
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
@@ -41,7 +46,7 @@ app.get('/query', (req, res) => {
             if (err) {
                 return console.error('Error executing query', err.stack)
             }
-            console.log(response.rows);
+            // console.log(response.rows);
             res.send({
                 data: response.rows
             })
@@ -71,11 +76,40 @@ app.get('/query_time', (req, res) => {
     })
 })
 
-app.get('/query_save', (req, res) => {
-    var date = req.query.date
-    var items = req.query.items
-    console.log(date)
-    console.log(items)
+app.post('/query_save', (req, res) => {
+    var items = req.body.items
+    var date = req.body.date
+    var names = []
+    var namesWithGrid = {
+        // "gene": {
+        //     "x":{},
+        //     "y":{}
+        // },
+        // "tazhnae": {
+        //     "x": {},
+        //     "y":{}
+        // }
+    }
+
+    items.forEach((row) => {
+        for (var col = 1; col <= 12; col++) {
+            var name = row[col.toString()]
+            // console.log(name)
+            if (name && !(name in namesWithGrid)) {
+                names.push(name)
+                namesWithGrid[name] = {
+                    "x": "",
+                    "y": ""
+                }
+            }
+            if (namesWithGrid[name]) {
+                namesWithGrid[name]["x"] = (namesWithGrid[name]["x"] == "" ? namesWithGrid[name]["x"] + row.row : namesWithGrid[name]["x"] + "," + row.row)
+                namesWithGrid[name]["y"] = (namesWithGrid[name]["y"] == "" ? namesWithGrid[name]["y"] + col : namesWithGrid[name]["y"] + "," + col)
+            }
+        }
+    })
+
+    console.log(namesWithGrid)
 
 
     //database connection
@@ -83,18 +117,27 @@ app.get('/query_save', (req, res) => {
         if (err) {
             return console.error('Error acquiring client', err.stack)
         }
-        // client.query(`insert into test (name, x, y, tz, geo, date) Values ('tazhnae', '{1, 2}','{3, 4}', 'utc', 'geo', '${date}')`, (err, response) => {
-        client.query(`UPDATE test SET name='tazhnae', x='{1,2}', y='{5, 6}', tz='utc', geo='amer', date='${date}' WHERE name='tazhnae' AND date='${date}';
-        INSERT INTO test (name, x, y, tz, geo, date)
-               SELECT 'tazhnae', '{1, 2}', '{3, 4}', 'utc', 'amer', '${date}'
-               WHERE NOT EXISTS (SELECT 1 FROM test WHERE name='tazhnae' AND date='${date}');`, (err, response) => {
-            release()
-            if (err) {
-                return console.error('Error executing query', err.stack)
-            }
-            res.send({
-                name: response.rows
+        names.forEach(name => {
+            var x = namesWithGrid[name]["x"]
+            var y = namesWithGrid[name]["y"]
+
+            client.query(`
+                UPDATE test SET name='${name}', x='{${x}}', y='{${y}}', tz='utc', geo='amer', date='${date}' 
+                WHERE name='tazhnae' AND date='${date}';
+                INSERT INTO test (name, x, y, tz, geo, date)
+                SELECT '${name}', '{${x}}', '{${y}}', 'utc', 'amer', '${date}'
+                WHERE NOT EXISTS(SELECT 1 FROM test WHERE name = '${name}'
+                AND date = '${date}');
+               `, (err, response) => {
+                release()
+                if (err) {
+                    return console.error('Error executing query', err.stack)
+                }
+                // res.send({
+                //     name: response.rows
+                // })
             })
         })
+
     })
 })

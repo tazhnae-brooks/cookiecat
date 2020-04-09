@@ -204,11 +204,30 @@ class RoleTable extends React.Component {
 		console.log(this.state.items)
 		let date = document.getElementById("date").getAttribute("data-day")
 		let formatDate = moment(date).format("YYYY-MM-DD");
-		const response = await fetch(`/query_save?items=${this.state.items}&date=${formatDate}`);
-		const body = await response.json();
-		if (response.status !== 200) {
-			throw Error(body.message)
-		}
+		// const response = await fetch('/query_save', {
+		// 	method: 'POST',
+		// 	headers: {
+		// 		'Content-Type': 'application/json'
+		// 	},
+		// 	body: {
+		// 		items: this.state.items,
+		// 		date: date
+		// 	}
+		// });
+		fetch('/query_save', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				items: this.state.items,
+				date: date
+			})
+		})
+		// const body = await response.json();
+		// if (response.status !== 200) {
+		// 	throw Error(body.message)
+		// }
 	}
 
 
