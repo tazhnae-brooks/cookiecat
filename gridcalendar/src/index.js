@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import RoleTable from './cicrole.js';
+// import RoleTable from './cicrole.js';
 import Tiny from './petitecalendrier.js';
 import Dates from './grandsemaine.js';
+// import RoleTable2 from './new_cicrole'
+import RoleTable3 from "./newnew_cicrole"
 
 
 class Index extends Component {
@@ -42,7 +44,11 @@ class Index extends Component {
                     <div class="slds-col slds-size_4-of-12" ></div>
                 </div>
                 <br />
-                <div><RoleTable /></div>
+                {/* <div><RoleTable /></div> */}
+                {/* <div><RoleTable2 /></div> */}
+                {/* <div><RoleTable3 /></div> */}
+
+
 
                 <p>{this.state.data}</p>
             </div >

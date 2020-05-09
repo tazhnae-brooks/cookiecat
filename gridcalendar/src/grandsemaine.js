@@ -13,7 +13,7 @@ class Dates extends Component {
 			day: <Moment></Moment>,
 			week: undefined,
 			weekD1: undefined,
-			day1: undefined,
+			// day1: undefined,
 		};
 		this.dayOffset = 0
 		this.previousDay = this.previousDay.bind(this);
@@ -60,16 +60,21 @@ class Dates extends Component {
 	}
 
 
-	//when day() goes to next week, week() should update as well
+	//when day() continues updating, week() should update as well
 	updateDate() {
-		if (this.nextDay === moment(this.state.day).add(7, 'days').toDate()) {
-
-		}
+		// if (this.nextDay === moment(this.state.day).add(7, 'days').toDate()) {
+		// if (this.nextDay) {
+		// 	console.log("yee^2")
+		// }
+		console.log("yee^2")
 	}
 
 
 
 	render() {
+		if (this.updateDate) {
+			// console.log("yee^2")
+		}
 		return (
 			<div >
 				<div className="week">
@@ -86,7 +91,7 @@ class Dates extends Component {
 				<div className="day">
 					<div>
 						<button class="slds-button slds-button_neutral slds-float_left" onClick={this.previousDay}> previous day</button>
-						<button class="slds-button slds-button_neutral slds-float_right" onClick={this.nextDay}> next day</button>
+						<button class="slds-button slds-button_neutral slds-float_right" onClick={this.nextDay, this.updateDate}> next day</button>
 					</div>
 					<h1>
 						<Moment format="dddd, MMMM Do" data-day={this.state.day} id='date'>{this.state.day}</Moment>

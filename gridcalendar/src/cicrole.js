@@ -53,6 +53,7 @@ class Names extends Component {
 }
 
 
+
 const bigColumns = [
 	<DataTableColumn key="" label="Multi" property="" width="5rem" />,
 	<DataTableColumn key="" label="Single" property="" width="2rem" />,
@@ -62,56 +63,98 @@ const bigColumns = [
 ]
 
 // make an input cell component
-const CustomDataTableCell = ({ children, ...props }) => (
-	<DataTableCell {...props}>
-		<Input value={children}></Input>
-	</DataTableCell>
-);
+// const CustomDataTableCell = ({ children, ...props }) => (
+// 	<DataTableCell {...props}>
+// 		<Input value={children} ></Input>
+// 	</DataTableCell>
+// );
+
+class CustomDataTableCell extends Component {
+	constructor(children, props) {
+		super(children, props)
+		this.state = {
+			chilren: children,
+			props: props,
+		};
+	}
+
+	// changeText(value) {
+	// 	let currentState = this.state
+	// 	currentState.chilren = value
+	// 	this.setState(currentState)
+	// }
+
+	render() {
+		return (
+			<DataTableCell {...this.state.props}>
+				<Input value={this.state.children} onChange={e => {
+					this.props.updateParentState(e.target.value)
+					console.log(this.props.row)
+				}} ></Input>
+			</DataTableCell>
+		)
+	}
+}
 
 // idk what this line does but it breaks if you remove it so dont touch it 
 CustomDataTableCell.displayName = DataTableCell.displayName;
+
+
+// const col0 = [
+// 	<DataTableColumn key="time" label="UTC Time" property="time" >
+// 	</DataTableColumn>
+// ]
+// const col1 = [
+// 	<DataTableColumn key="1" label="Multi - IC" property="1">
+// 		<CustomDataTableCell updateParentState={this.updateStateWithText} />
+// 	</DataTableColumn>
+// ]
+
+
+
+
 
 // define the columns
 // key = anything, as long as it is unique
 // label = what you want to show on the top bar
 // property = the value used to match from the items (see items in state)
-const columns = [
-	<DataTableColumn key="time" label="UTC Time" property="time">
-	</DataTableColumn>,
-	<DataTableColumn key="1" label="Multi - IC" property="1">
-		<CustomDataTableCell />
-	</DataTableColumn>,
-	<DataTableColumn key="2" label="Multi - BO" property="2">
-		<CustomDataTableCell />
-	</DataTableColumn>,
-	<DataTableColumn key="3" label="Multi - LNO" property="3">
-		<CustomDataTableCell />
-	</DataTableColumn>,
-	<DataTableColumn key="4" label="Multi - Scribe" property="4">
-		<CustomDataTableCell />
-	</DataTableColumn>,
-	<DataTableColumn key="5" label="Multi - OR" property="5">
-		<CustomDataTableCell />
-	</DataTableColumn>,
-	<DataTableColumn key="6" label="Single - IC" property="6">
-		<CustomDataTableCell />
-	</DataTableColumn>,
-	<DataTableColumn key="7" label=" Single - Ex Esc" property="7">
-		<CustomDataTableCell />
-	</DataTableColumn>,
-	<DataTableColumn key="8" label="UC - Pri" property="8">
-		<CustomDataTableCell />
-	</DataTableColumn>,
-	<DataTableColumn key="9" label="UC - Sec" property="9">
-		<CustomDataTableCell />
-	</DataTableColumn>,
-	<DataTableColumn key="10" label="Ecomm - Pri" property="10">
-		<CustomDataTableCell />
-	</DataTableColumn>,
-	<DataTableColumn key="11" label="Ecomm - Sec" property="11">
-		<CustomDataTableCell />
-	</DataTableColumn>,
-];
+// const columns = [
+// 	<DataTableColumn key="time" label="UTC Time" property="time" >
+// 	</DataTableColumn>,
+// 	<DataTableColumn key="1" label="Multi - IC" property="1">
+// 		<CustomDataTableCell updateParentState={this.updateStateWithText} />
+// 	</DataTableColumn>,
+// 	<DataTableColumn key="2" label="Multi - BO" property="2">
+// 		<CustomDataTableCell />
+// 	</DataTableColumn>,
+// 	<DataTableColumn key="3" label="Multi - LNO" property="3">
+// 		<CustomDataTableCell />
+// 	</DataTableColumn>,
+// 	<DataTableColumn key="4" label="Multi - Scribe" property="4">
+// 		<CustomDataTableCell />
+// 	</DataTableColumn>,
+// 	<DataTableColumn key="5" label="Multi - OR" property="5">
+// 		<CustomDataTableCell />
+// 	</DataTableColumn>,
+// 	<DataTableColumn key="6" label="Single - IC" property="6">
+// 		<CustomDataTableCell />
+// 	</DataTableColumn>,
+// 	<DataTableColumn key="7" label=" Single - Ex Esc" property="7">
+// 		<CustomDataTableCell />
+// 	</DataTableColumn>,
+// 	<DataTableColumn key="8" label="UC - Pri" property="8">
+// 		<CustomDataTableCell />
+// 	</DataTableColumn>,
+// 	<DataTableColumn key="9" label="UC - Sec" property="9">
+// 		<CustomDataTableCell />
+// 	</DataTableColumn>,
+// 	<DataTableColumn key="10" label="Ecomm - Pri" property="10">
+// 		<CustomDataTableCell />
+// 	</DataTableColumn>,
+// 	<DataTableColumn key="11" label="Ecomm - Sec" property="11">
+// 		<CustomDataTableCell />
+// 	</DataTableColumn>,
+// ];
 
 class RoleTable extends React.Component {
 	static displayName = 'Grid';
@@ -125,8 +168,125 @@ class RoleTable extends React.Component {
 		// we're now going by 'row':'col', will need DB changes but dont worry about it yet
 		this.state = {
 			items: [],
+			col0: [
+				<DataTableColumn key="time" label="UTC Time" property="time" >
+				</DataTableColumn>
+			],
+			col1: [
+				<DataTableColumn key="1" label="Multi - IC" property="1">
+					<CustomDataTableCell updateParentState={this.updateStateWithText} />
+				</DataTableColumn>
+			],
+			col2: [
+				<DataTableColumn key="2" label="Multi - BO" property="2">
+					<CustomDataTableCell updateParentState={this.updateStateWithText} />
+				</DataTableColumn>,
+			],
+			col3: [
+				<DataTableColumn key="3" label="Multi - LNO" property="3">
+					<CustomDataTableCell updateParentState={this.updateStateWithText} />
+				</DataTableColumn>,
+			],
+			col4: [
+				<DataTableColumn key="4" label="Multi - Scribe" property="4">
+					<CustomDataTableCell updateParentState={this.updateStateWithText} />
+				</DataTableColumn>,
+			],
+			col5: [
+				<DataTableColumn key="5" label="Multi - OR" property="5">
+					<CustomDataTableCell updateParentState={this.updateStateWithText} />
+				</DataTableColumn>,
+			],
+			col6: [
+				<DataTableColumn key="5" label="Single - IC" property="5">
+					<CustomDataTableCell updateParentState={this.updateStateWithText} />
+				</DataTableColumn>,
+			],
+			col7: [
+				<DataTableColumn key="5" label="Single - Ex Esc" property="5">
+					<CustomDataTableCell updateParentState={this.updateStateWithText} />
+				</DataTableColumn>,
+			],
+			col8: [
+				<DataTableColumn key="5" label="UC - Pri" property="5">
+					<CustomDataTableCell updateParentState={this.updateStateWithText} />
+				</DataTableColumn>,
+			],
+			col9: [
+				<DataTableColumn key="5" label="UC - Sec" property="5">
+					<CustomDataTableCell updateParentState={this.updateStateWithText} />
+				</DataTableColumn>,
+			],
+			col10: [
+				<DataTableColumn key="5" label="Ecomm - Pri" property="5">
+					<CustomDataTableCell updateParentState={this.updateStateWithText} />
+				</DataTableColumn>,
+			],
+			col11: [
+				<DataTableColumn key="5" label="Ecomm - Sec" property="5">
+					<CustomDataTableCell updateParentState={this.updateStateWithText} />
+				</DataTableColumn>,
+			],
+
+
+			// {
+			// row: 1,
+			// coponent: <datatablecolumn>xy</datatablecolumn>
+			// }
+
+			// columns: [
+			// 	< DataTableColumn key="time" label="UTC Time" property="time" >
+			// 	</DataTableColumn >,
+			// 	< DataTableColumn key="1" label="Multi - IC" property="1" >
+			// 		<CustomDataTableCell updateParentState={this.updateStateWithText} />
+			// 	</DataTableColumn >,
+			// 	<DataTableColumn key="2" label="Multi - BO" property="2">
+			// 		<CustomDataTableCell />
+			// 	</DataTableColumn>,
+			// 	<DataTableColumn key="3" label="Multi - LNO" property="3">
+			// 		<CustomDataTableCell />
+			// 	</DataTableColumn>,
+			// 	<DataTableColumn key="4" label="Multi - Scribe" property="4">
+			// 		<CustomDataTableCell />
+			// 	</DataTableColumn>,
+			// 	<DataTableColumn key="5" label="Multi - OR" property="5">
+			// 		<CustomDataTableCell />
+			// 	</DataTableColumn>,
+			// 	<DataTableColumn key="6" label="Single - IC" property="6">
+			// 		<CustomDataTableCell />
+			// 	</DataTableColumn>,
+			// 	<DataTableColumn key="7" label=" Single - Ex Esc" property="7">
+			// 		<CustomDataTableCell />
+			// 	</DataTableColumn>,
+			// 	<DataTableColumn key="8" label="UC - Pri" property="8">
+			// 		<CustomDataTableCell />
+			// 	</DataTableColumn>,
+			// 	<DataTableColumn key="9" label="UC - Sec" property="9">
+			// 		<CustomDataTableCell />
+			// 	</DataTableColumn>,
+			// 	<DataTableColumn key="10" label="Ecomm - Pri" property="10">
+			// 		<CustomDataTableCell />
+			// 	</DataTableColumn>,
+			// 	<DataTableColumn key="11" label="Ecomm - Sec" property="11">
+			// 		<CustomDataTableCell />
+			// 	</DataTableColumn>]
 		};
 	}
+
+	// column = [
+	// 	{
+	// 		component: `${< DataTableColumn key="1" label="Multi - IC" property="1" ><CustomDataTableCell updateParentState={this.updateStateWithText} /></DataTableColumn >}`
+	// 	},
+	// ];
+
+	// tableCol() {
+	// 	this.setState({
+	// 		items: [],
+	// 		col1: this.col1
+	// 	})
+	// 	this.componentWillMount()
+	// }
+
 
 	// do the for loop to get all the rows down where they supposed to be
 	componentWillMount() {
@@ -149,25 +309,49 @@ class RoleTable extends React.Component {
 					"12": null,
 				}
 			)
+			switch (rows) {
+				// case 1:
+				// 	this.state.col1[rows + rows] = (
+				// 		< DataTableColumn key="1" label="cha sah miniimiip blabah " property="1" >
+				// 			<CustomDataTableCell row={rows} updateParentState={this.updateStateWithText} />
+				// 		</DataTableColumn >
+				// 	)
+				// 	break
+				// case 2:
+				// 	this.state.col2[rows] = (
+				// 		< DataTableColumn key="2" label="periodt" property="2" >
+				// 			<CustomDataTableCell row={rows} updateParentState={this.updateStateWithText} />
+				// 		</DataTableColumn >
+				// 	)
+			}
+
+
+			/* switch(rows){
+				case 1:
+					this.state.columns[rows] = (
+						< DataTableColumn key="1" label="Multi - IC" property="1" >
+					<CustomDataTableCell row={rows} updateParentState={this.updateStateWithText} />
+				</DataTableColumn >
+					)
+			} */
+
 		}
 	}
 
-
+	//query setup for <Names/> 
 	async handleSelectChange(value) {
 		let date = document.getElementById("date").getAttribute("data-day")
 		let formatDate = moment(date).format("YYYY-MM-DD");
 		console.log(formatDate);
-		const response = await fetch(`/query?name=${value}&date=${formatDate}`);
+		const response = await fetch(`/ query ? name = ${value}& date=${formatDate} `);
 		const body = await response.json();
 		if (response.status !== 200) {
 			throw Error(body.message)
 		}
 		this.handleNameData(body.data[0]);
-
-
 	}
 
-
+	//manual text input 
 	handleNameData(data) {
 		data.x.forEach((row, index) => {
 			let rowCopy = this.state.items[parseInt(row) - 1]
@@ -192,14 +376,21 @@ class RoleTable extends React.Component {
 		})
 	}
 
-	handleClick() {
-		let date = document.getElementById("date").getAttribute("data-day")
-		let formatDate = moment(date).format("YYYY-MM-DD");
-		// console.log("h2o")
-		console.log("water")
+	//unknown force 
+	// handleClick() {
+	// 	let date = document.getElementById("date").getAttribute("data-day")
+	// 	let formatDate = moment(date).format("YYYY-MM-DD");
+	// 	// console.log("h2o")
+	// 	console.log("water")
+
+	// }
+
+	//shows the row # for text input 
+	updateStateWithText(text) {
+		console.log(text)
 	}
 
-
+	//query setup to save in database
 	async save() {
 		console.log(this.state.items)
 		let date = document.getElementById("date").getAttribute("data-day")
@@ -224,6 +415,7 @@ class RoleTable extends React.Component {
 				date: date
 			})
 		})
+
 		// const body = await response.json();
 		// if (response.status !== 200) {
 		// 	throw Error(body.message)
@@ -232,6 +424,7 @@ class RoleTable extends React.Component {
 
 
 	render() {
+
 		return (
 			<IconSettings iconPath="/assets/icons">
 				<Names
@@ -243,7 +436,20 @@ class RoleTable extends React.Component {
 						{bigColumns}
 					</DataTable>
 					<DataTable columnBordered items={this.state.items} id="Grid-columnBordered" noRowHover>
-						{columns}
+						{/* {this.state.columns} */}
+						{/* {this.tableCol} */}
+						{this.state.col0}
+						{this.state.col1}
+						{this.state.col2}
+						{this.state.col3}
+						{this.state.col4}
+						{this.state.col5}
+						{this.state.col6}
+						{this.state.col7}
+						{this.state.col8}
+						{this.state.col9}
+						{this.state.col10}
+						{this.state.col11}
 					</DataTable>
 				</div>
 			</IconSettings>
